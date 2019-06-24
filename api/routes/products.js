@@ -6,10 +6,27 @@ const mongoose = require('mongoose');
 const ProductMo = require('../models/products.model');
 
 router.get("/", (req, res, next) => {
-    ProductMo.find().exec().then((docs) => {
+    ProductMo.find({}, {
+        __v: 0
+    }).exec().then((docs) => {
         console.log(docs);
         if (docs) {
-            res.status(200).json(docs);
+            const response = {
+                count: docs.length,
+                // product: docs.map(doc => {
+                //     return {
+                //         name: doc.name,
+                //         price: doc.price,
+                //         _id: doc._id,
+                //         request: {
+                //             type: "GET",
+                //             url: "http://localhost:3000/product" + doc._id
+                //         }
+                //     }
+                // })
+                product: docs
+            };
+            res.status(200).json(response);
         } else {
             res.status(400).json({
                 message: "No Result Found"
@@ -35,7 +52,7 @@ router.post("/", (req, res, next) => {
     product.save().then((result) => {
         console.log(result);
         res.status(201).json({
-            message: "Post Works",
+            message: "Product Added",
             createdProduct: product
         });
     }).catch(err => {

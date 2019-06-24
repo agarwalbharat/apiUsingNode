@@ -7,7 +7,8 @@ const mongoose = require('mongoose');
 
 const app = express();
 mongoose.connect("mongodb://localhost:27017/apiUsingNode", {
-    useNewUrlParser: true
+    useNewUrlParser: true,
+    useMongoClient: true
 });
 
 app.use(morgan('dev'));
