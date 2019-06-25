@@ -91,9 +91,11 @@ router.post("/", upload.single('productImage'), (req, res, next) => {
     });
 });
 
-router.get('/:Pid', (req, res, next) => {
-    const id = req.params.Pid;
-    ProductMo.findById(id).exec().then(doc => {
+router.get('/:productID', (req, res, next) => {
+    const id = req.params.productID;
+    ProductMo.findById(id, {
+        __v: 0
+    }).exec().then(doc => {
         console.log(doc);
         if (doc) {
             res.status(200).json(doc);
