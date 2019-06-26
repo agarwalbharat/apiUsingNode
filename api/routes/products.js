@@ -75,7 +75,8 @@ router.post("/", upload.single('productImage'), (req, res, next) => {
     const product = new ProductMo({
         _id: mongoose.Types.ObjectId(),
         name: req.body.name,
-        price: req.body.price
+        price: req.body.price,
+        productImage: req.file.path
     });
     product.save().then((result) => {
         console.log(result);

@@ -11,6 +11,7 @@ mongoose.connect("mongodb://localhost:27017/apiUsingNode", {
 });
 
 app.use(morgan('dev'));
+app.use('/uploads', express.static('uploads'));
 app.use(bodyParser.urlencoded({
     extended: false
 }));
