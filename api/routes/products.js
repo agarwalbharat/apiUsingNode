@@ -3,6 +3,8 @@ const express = require("express");
 const mongoose = require('mongoose');
 const multer = require('multer');
 
+const checkAuth = require('../middleware/auth.check');
+
 const ProductMo = require('../models/products.model');
 const router = express.Router();
 
@@ -33,7 +35,7 @@ const upload = multer({
 
 
 
-router.get("/", (req, res, next) => {
+router.get("/", checkAuth, (req, res, next) => {
     ProductMo.find({}, {
         __v: 0
     }).exec().then((docs) => {
