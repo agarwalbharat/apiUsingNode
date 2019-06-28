@@ -44,4 +44,40 @@ router.post('/signup', (req, res, next) => {
     });
 });
 
+
+router.post('/login', (req, res, next) => {
+    userModel.find({
+        email: req.body.email
+    }).exec().then(user => {
+        if (user.length < 1) {
+            return res.status(401).json({
+                message: "Authorization failed"
+            });
+        } else {
+            bcrypt.compare(req.body.password, user[0].password, function (err, resp) {
+                if (err) {
+                    return res.status(401).json({
+                        message: "Authorization failed"
+                    });
+                }
+                if (resp) {
+                    return res.status(200).json({
+                        message: 'Auth Success'
+                    });
+                } else {
+                    return res.status(401).json({
+                        message: "Authorization failed"
+                    });
+                }
+            });
+        }
+
+    }).catch(err => {
+        console.log(err);
+        res.status(500).json({
+            error: err,
+        });
+    });
+});
+
 module.exports = router;
